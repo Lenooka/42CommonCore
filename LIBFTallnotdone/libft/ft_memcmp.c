@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otolmach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/06 19:30:50 by otolmach          #+#    #+#             */
-/*   Updated: 2023/09/06 19:30:52 by otolmach         ###   ########.fr       */
+/*   Created: 2023/09/06 16:34:52 by otolmach          #+#    #+#             */
+/*   Updated: 2023/09/06 16:34:53 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	unsigned int		i;
-	unsigned int		j;
+	const unsigned char	*p1 = s1;
+	const unsigned char	*p2 = s2;
+	size_t				i;
 
-	if (little[0] == '\0')
-		return ((char *)big);
 	i = 0;
-	while (big[i] && i < len)
+	while (i < n)
 	{
-		j = 0;
-		if (big[i] == little[j])
+		if (p1[i] < p2[i])
 		{
-			while (i + j < len && big[i + j] == little[j])
-			{
-				j++;
-				if (!little[j])
-					return ((char *)&big[i]);
-			}
+			return ((int)(p1[i] - p2[i]));
+		}
+		if (p1[i] > p2[i])
+		{
+			return ((int)(p1[i] - p2[i]));
 		}
 		i++;
 	}

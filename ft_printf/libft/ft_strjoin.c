@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otolmach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/06 19:30:50 by otolmach          #+#    #+#             */
-/*   Updated: 2023/09/06 19:30:52 by otolmach         ###   ########.fr       */
+/*   Created: 2023/09/07 15:00:56 by otolmach          #+#    #+#             */
+/*   Updated: 2023/09/07 15:00:58 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned int		i;
-	unsigned int		j;
+	char	*jstr;
+	int		i;
+	int		j;
+	int		jlen;
 
-	if (little[0] == '\0')
-		return ((char *)big);
+	jlen = ft_strlen(s1) + ft_strlen(s2);
 	i = 0;
-	while (big[i] && i < len)
+	j = 0;
+	jstr = (char *)malloc(sizeof(char) * (jlen + 1));
+	if (!jstr)
+		return (NULL);
+	while (*s1)
 	{
-		j = 0;
-		if (big[i] == little[j])
-		{
-			while (i + j < len && big[i + j] == little[j])
-			{
-				j++;
-				if (!little[j])
-					return ((char *)&big[i]);
-			}
-		}
+		jstr[j] = *s1++;
+		j++;
+	}
+	while (*s2)
+	{
+		jstr[j] = *s2++;
+		j++;
 		i++;
 	}
-	return (0);
+	jstr[j] = '\0';
+	return (jstr);
 }

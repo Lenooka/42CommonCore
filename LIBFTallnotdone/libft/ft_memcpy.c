@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otolmach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/06 19:30:50 by otolmach          #+#    #+#             */
-/*   Updated: 2023/09/06 19:30:52 by otolmach         ###   ########.fr       */
+/*   Created: 2023/09/04 17:05:44 by otolmach          #+#    #+#             */
+/*   Updated: 2023/09/04 17:05:46 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned int		i;
-	unsigned int		j;
+	char		*dst;
+	char		*sors;
+	size_t		i;
 
-	if (little[0] == '\0')
-		return ((char *)big);
+	if (!((char *)dest) && !((char *)src))
+		return (0);
+	dst = (char *) dest;
+	sors = (char *) src;
 	i = 0;
-	while (big[i] && i < len)
+	while (i < n)
 	{
-		j = 0;
-		if (big[i] == little[j])
-		{
-			while (i + j < len && big[i + j] == little[j])
-			{
-				j++;
-				if (!little[j])
-					return ((char *)&big[i]);
-			}
-		}
+		dst[i] = sors[i];
 		i++;
 	}
-	return (0);
+	return (dest);
 }

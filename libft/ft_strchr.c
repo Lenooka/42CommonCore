@@ -9,20 +9,21 @@
 /*   Updated: 2023/09/05 17:07:41 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
-	char	*i;
-
-	i = (char *)s;
-	while (*i != '\0')
+	c = c % 128;
+	while (*s != '\0')
 	{
-		if (*i == c)
+		if (*s == (char)c)
 		{
-			return (i);
+			return ((char *)s);
 		}
-		i++;
+		s++;
 	}
-	return (i);
+	if (c == *s)
+		return ((char *)s);
+	return (NULL);
 }

@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otolmach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/06 19:30:50 by otolmach          #+#    #+#             */
-/*   Updated: 2023/09/06 19:30:52 by otolmach         ###   ########.fr       */
+/*   Created: 2023/09/05 17:07:39 by otolmach          #+#    #+#             */
+/*   Updated: 2023/09/05 17:07:41 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strchr(const char *s, int c)
 {
-	unsigned int		i;
-	unsigned int		j;
-
-	if (little[0] == '\0')
-		return ((char *)big);
-	i = 0;
-	while (big[i] && i < len)
+	c = c % 128;
+	while (*s != '\0')
 	{
-		j = 0;
-		if (big[i] == little[j])
+		if (*s == (char)c)
 		{
-			while (i + j < len && big[i + j] == little[j])
-			{
-				j++;
-				if (!little[j])
-					return ((char *)&big[i]);
-			}
+			return ((char *)s);
 		}
-		i++;
+		s++;
 	}
-	return (0);
+	if (c == *s)
+		return ((char *)s);
+	return (NULL);
 }
