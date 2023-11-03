@@ -21,7 +21,7 @@ void	swap(t_list *list, int stack)
 	list->stacks[stack][1] = temp;
 }
 
-void	rotate(t_list *list, int stack, int ord)
+void	rotate(t_list *list, int stack, int ord)//dosent work
 {
 	int i;
 	int	temp;
