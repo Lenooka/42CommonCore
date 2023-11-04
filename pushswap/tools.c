@@ -21,14 +21,14 @@ void	swap(t_list *list, int stack)
 	list->stacks[stack][1] = temp;
 }
 
-void	rotate(t_list *list, int stack, int ord)//dosent work
+void	rotate(t_list *list, int stack, int ord)
 {
 	int i;
 	int	temp;
 
 	if (ord == DOWN)
 	{
-		i = list->stacks[stack][list->size[stack] - 1];
+		i = list->size[stack] - 1;
 		temp = list->stacks[stack][list->size[stack] - 1];
 		while(i > 0)
 		{
@@ -39,41 +39,40 @@ void	rotate(t_list *list, int stack, int ord)//dosent work
 	}
 	else if (ord == UP)
 	{
-		i = 1;
+		i = 0;
 		temp = list->stacks[stack][0];
 		while(i < list->stacks[stack][list->size[stack] - 1])
 		{
-			list->stacks[stack][i - 1] = list->stacks[stack][i];
+			list->stacks[stack][i] = list->stacks[stack][i + 1];
 			i++;
 		}
 		list->stacks[stack][list->size[stack] - 1] = temp;
 	}
 }
-void	push(t_list *list, int from) //NEED TO ROTATE
+void push(t_list *list, int from)
 {
-	int	i;
-	int to;
-	int	temp;
+    int to;
 
 	to = 1 - from;
-	temp = list->stacks[from][0];
-	list->size[to]++;
-	i = list->stacks[to][list->size[to]];
-	while(i < list->stacks[to][list->size[to] - 1])
-		{
-			list->stacks[to][i - 1] = list->stacks[to][i];
-			i++;
-		}
-	list->stacks[to][0] = temp;
+    if (list->size[from] > 0) 
+	{
+		list->size[to]++;
+        rotate(list, to, DOWN);
+		list->stacks[to][0] = list->stacks[from][0];
+        rotate(list, from, UP);
+		list->size[from]--;
+    }
 }
+
+/*
 void	print_stacks(t_list *list)
 {
 	int	i = 0;
 	/*swap(list, A);
 	printf("%d\t", list->stacks[A][0]);
 	swap(list, B);
-	printf("%d\n", list->stacks[B][0]);
-	rotate(list, B, UP);*/
+	printf("%d\n", list->stacks[B][0]);*/
+	/*rotate(list, B, DOWN);
 	push(list, A);
 	while (i < list->size[A])
 	{
@@ -83,6 +82,7 @@ void	print_stacks(t_list *list)
 	i = 0;
 	while (i < list->size[B])
 	{
+		printf("\t");
 		printf("%d\n", list->stacks[B][i]);
 		i++;
 	}
@@ -110,16 +110,16 @@ int main(void)
 	list->size[A] = 5;
 	list->size[B] = 5;
 
-	list->stacks[A][0] = 9;
+	list->stacks[A][0] = 1;
 	list->stacks[A][1] = 2;
 	list->stacks[A][2] = 3;
 	list->stacks[A][3] = 4;
 	list->stacks[A][4] = 5;
-	list->stacks[B][0] = 9;
-	list->stacks[B][1] = 2;
-	list->stacks[B][2] = 3;
-	list->stacks[B][3] = 4;
-	list->stacks[B][4] = 5;
+	list->stacks[B][0] = 6;
+	list->stacks[B][1] = 7;
+	list->stacks[B][2] = 8;
+	list->stacks[B][3] = 9;
+	list->stacks[B][4] = 0;
 
 	print_stacks(list);
 
@@ -128,6 +128,6 @@ int main(void)
     free(list);
 
     return (0);
-}
+}*/
 
 
