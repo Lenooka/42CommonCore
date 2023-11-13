@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:11:54 by otolmach          #+#    #+#             */
-/*   Updated: 2023/11/03 20:13:42 by otolmach         ###   ########.fr       */
+/*   Updated: 2023/11/08 20:14:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
+ 
 void	swap(t_list *list, int stack)
 {
 	int temp;
@@ -26,7 +26,7 @@ void	rotate(t_list *list, int stack, int ord)
 	int i;
 	int	temp;
 
-	if (ord == DOWN)
+	if (ord == DOWN) /*reverse*/
 	{
 		i = list->size[stack] - 1;
 		temp = list->stacks[stack][list->size[stack] - 1];
