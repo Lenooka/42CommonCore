@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:11:54 by otolmach          #+#    #+#             */
-/*   Updated: 2023/11/08 20:14:49 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/16 16:27:43 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	rotate(t_list *list, int stack, int ord)
 		list->stacks[stack][list->size[stack] - 1] = temp;
 	}
 }
-void push(t_list *list, int from)
+void	push(t_list *list, int from)
 {
     int to;
 
@@ -61,14 +61,9 @@ void push(t_list *list, int from)
 		list->stacks[to][0] = list->stacks[from][0];
         rotate(list, from, UP);
 		list->size[from]--;
-    }
+	}
 }
-
-/*
-void	print_stacks(t_list *list)
-{
-	int	i = 0;
-	/*swap(list, A);
+	/*
 	printf("%d\t", list->stacks[A][0]);
 	swap(list, B);
 	printf("%d\n", list->stacks[B][0]);*/

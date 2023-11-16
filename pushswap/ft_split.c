@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:42:53 by otolmach          #+#    #+#             */
-/*   Updated: 2023/11/08 19:21:54 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/16 17:48:46 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	word_count(char *s, char c)
+static int	word_count(const char *s, char c)
 {
 	int	count;
 	int	in_word;

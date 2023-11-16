@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otolmach <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 17:58:00 by otolmach          #+#    #+#             */
-/*   Updated: 2023/09/06 17:58:02 by otolmach         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:35:40 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
 	unsigned int	i;
 	long			mc;
@@ -34,5 +34,5 @@ int	ft_atoi(const char *str)
 		g = g * 10 + (str[i] - '0');
 		i++;
 	}
-	return ((int)(g * mc));
+	return (g * mc);
 }
