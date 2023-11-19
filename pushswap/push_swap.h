@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:58:38 by otolmach          #+#    #+#             */
-/*   Updated: 2023/11/16 18:26:06 by otolmach         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:48:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,9 @@ void	freeMemory(t_list *list);
 int		populateStackA(t_list *list, int argc, char **argv);
 long	ft_atol(const char *str);
 char	**ft_split(const char *s, char c);
+int 	ft_max(t_list *list);
+void	sort_big_stack(t_list *list);
+void	radix_sort_stack_b(t_list *list, int b_size, int bit_size, int j);
+void	radix_sort(t_list *list);
 
 # endif
