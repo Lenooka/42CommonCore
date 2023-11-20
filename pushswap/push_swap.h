@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 14:58:38 by otolmach          #+#    #+#             */
-/*   Updated: 2023/11/19 17:48:01 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/20 11:37:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ int 	ft_max(t_list *list);
 void	sort_big_stack(t_list *list);
 void	radix_sort_stack_b(t_list *list, int b_size, int bit_size, int j);
 void	radix_sort(t_list *list);
+void	sort_stack_a(t_list *list);
+int		sort(t_list *list, int stack);
 
 # endif

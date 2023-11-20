@@ -6,11 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:34:07 by otolmach          #+#    #+#             */
-/*   Updated: 2023/11/19 15:24:38 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/20 11:38:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+
 
 int	notsort(t_list *list, int stack)
 {
@@ -26,7 +28,7 @@ int	notsort(t_list *list, int stack)
 		}
 		i++;
 	}
-	printf("sorted\n");
+	//printf("sorted\n");
 	return (1);
 }
 	
