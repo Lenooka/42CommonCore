@@ -47,7 +47,7 @@ int	main(int argc, char **argv)
 		f++;
 	}
 	free(first);
-	write(1, "\n", 1);
+	write(1, "\n\n", 2);
 	return (0);
 
 }
