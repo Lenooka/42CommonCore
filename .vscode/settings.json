@@ -5,6 +5,8 @@
 		"initializer_list": "c",
 		"ranges": "c",
 		"utility": "c",
-		"limits.h": "c"
+		"limits.h": "c",
+		"sstream": "c",
+		"push_swap.h": "c"
 	}
 }
