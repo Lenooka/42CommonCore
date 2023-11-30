@@ -78,6 +78,7 @@ int main(int argc, char **argv)
     /*if (is_empty(argv) || duplicate(list))
 		free_error(list);*/
     if (issorted(list))
-		sortmechanism(list);
+		sortchoice(list);
+    issorted(list);
 	return (iferror);
 }

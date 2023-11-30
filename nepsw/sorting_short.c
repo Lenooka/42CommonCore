@@ -1,15 +1,15 @@
 #include "push_swap.h"
 
-void	sortmechanism(t_list *list)
+void	sortchoice(t_list *list)
 {
 	if (list->lena < 10)
-		myshortsort(list);
+		shortsort(list);
 	/*else
 		radix_sort(list);*/
 }
 
 
-void	findmin(t_list *list)
+void	findmindex(t_list *list)
 {
 	int	i;
 
@@ -47,14 +47,14 @@ int	issorted(t_list *list)
 	return (0);
 }
 
-void	myshortsort(t_list *list)
+void	shortsort(t_list *list)
 {
-	int	templena;
+	int	middlen;
 
 	while (list->lena != 1 && issorted(list))
 	{
-		templena = list->lena / 2;
-		findmin(list);
+		middlen = list->lena / 2;
+		findmindex(list);
 		if (list->min_i == 0)
 			pb(list);
 		else if (list->min_i == 1)
@@ -66,19 +66,17 @@ void	myshortsort(t_list *list)
 		}
 		else
 		{
-			if (list->stacka[0] > list->stacka[1])
-				sa(list);
-			othercase(list, templena);
+			middlena(list, middlen);
 		}
 	}
-	while (list->lenb > 0)
-		pa(list);
 }
 
-void	othercase(t_list *list, int a)
+void	middlena(t_list *list, int middlena)
 {
-	if (list->min_i < a)
+	if (list->stacka[0] > list->stacka[1])
+		sa(list);
+	if (list->min_i < middlena)
 		ra(list);
-	else if (list->min_i >= a)
+	else if (list->min_i >= middlena)
 		rra(list);
 }

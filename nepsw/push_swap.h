@@ -31,10 +31,11 @@ void	rb(t_list *list);
 void	rr(t_list *list);
 void	pa(t_list *list);
 void	pb(t_list *list);
-void	othercase(t_list *list, int a);
-void	myshortsort(t_list *list);
+void	middlena(t_list *list, int middlena);
+void	shortsort(t_list *list);
 int		issorted(t_list *list);
-void	sortmechanism(t_list *list);
+void	sortchoice(t_list *list);
+void	findmindex(t_list *list);
 void	initializeList(t_list *list, char **argv);
 void	freeMemory(t_list *list);
 int		populateStackA(t_list *list, int argc, char **argv);
@@ -43,7 +44,7 @@ char	**ft_split(const char *s, char c);
 int	error_cyntax(char *str);
 void	free_error(t_list *list);
 size_t	ft_strlen(const char *s);
-void	findmin(t_list *data);
+void	findmindex(t_list *data);
 
 
 #endif
