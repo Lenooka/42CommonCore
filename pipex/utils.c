@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 03:31:18 by olena             #+#    #+#             */
-/*   Updated: 2024/01/15 14:38:21 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:28:07 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	error_free_handle(char **cmd, int fd, int *pipefd)
 	error_handle("Command not found!");
 }
 
-int	ft_sostrlen(char *s)
+int	ft_sostrlen(const char *s)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ int	ft_sostrlen(char *s)
 	return (i);
 }
 
-char	*ft_sostrjoin(char *s1, char *s2)
+char	*ft_sostrjoin(const char *s1, const  char *s2)
 {
 	char	*c;
 	int		i;
@@ -74,7 +74,6 @@ char	*ft_sostrjoin(char *s1, char *s2)
 	while (s2[i2] != '\0')
 		c[i++] = s2[i2++];
 	c[i] = '\0';
-	free(s1);
 	s1 = NULL;
 	return (c);
 }
