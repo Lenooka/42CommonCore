@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 23:39:25 by olena             #+#    #+#             */
-/*   Updated: 2024/01/15 03:09:28 by olena            ###   ########.fr       */
+/*   Updated: 2024/01/15 14:38:08 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	first_child(int *fd, int *pipefd, char **argv, char **envp)
 
 	pid = fork();
 	if (pid < 0)
-		error_handle("First child creation error!")
+		error_handle("First child creation error!");
 	if (pid == 0)
 	{
 		fd[0] = open(argv[1], O_RDONLY);
@@ -52,8 +52,8 @@ void	first_child(int *fd, int *pipefd, char **argv, char **envp)
 		}
 		else
 		{
-			free(tmp);
-			cant_find_cmd(fd[0], pipefd, cmd);
+			free(path);
+			error_free_handle(cmd, fd[0], pipefd);
 		}
 	}
 }
@@ -66,23 +66,23 @@ void	second_child_crt(int *fd, int *pipefd, char **argv, char **envp)
 
 	pid = fork();
 	if (pid < 0)
-		error_handle("Second child creation error!")
+		error_handle("Second child creation error!");
 	if (pid == 0)
 	{
-		fd[0] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd[0] < 0)
+		fd[1] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd[1] < 0)
 			error_handle("Second child open error!");
 		cmd = ft_split(argv[3], ' ');
 		path = find_path(envp, cmd[0]);
 		if (cmd[0] != NULL && path)
 		{
-			redirect_and_close(fd[0], pipefd, 2);
+			redirect_and_close(fd[1], pipefd, 2);
 			execve(path, cmd, envp);
 		}
 		else
 		{
 			free(path);
-			cant_find_cmd(fd[0], pipefd, cmd);
+			error_free_handle(cmd, fd[1], pipefd);
 		}
 	}
 }
@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 		error_handle("Wrong amount of arguments");
 	if (!envp || envp[0][0] == '\0')
 		error_handle("Environment pointer error");
-	if (pipe(pipefd) = -1)
+	if (pipe(pipefd) == -1)
 		error_handle("Pipe fd error");
 	first_child(fd, pipefd, argv, envp);
 	second_child_crt(fd, pipefd, argv, envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 03:06:04 by olena             #+#    #+#             */
-/*   Updated: 2024/01/15 03:38:04 by olena            ###   ########.fr       */
+/*   Updated: 2024/01/15 14:38:17 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**envp_path_dir(char **envp)
 	return (result);
 }
 
-char    *find_path(char *cmd, char **envp)
+char    *find_path(char **envp, char *cmd)
 {
 	int		idx;
 	char	*path;
@@ -34,9 +34,9 @@ char    *find_path(char *cmd, char **envp)
 
 	idx = 0;
 	path_array = envp_path_dir(envp);
-	while (path_array[i])
+	while (path_array[idx])
 	{
-		path = ft_sostrjoin(paths[i], "/");
+		path = ft_sostrjoin(path_array[idx], "/");
 		path = ft_sostrjoin(path, cmd);
 		if (!access(path, F_OK))
 		{
@@ -44,7 +44,7 @@ char    *find_path(char *cmd, char **envp)
 			return (path);
 		}
 		free(path);
-		i++;
+		idx++;
 	}
 	free_strings(path_array);
 	return (0);
