@@ -1,6 +1,6 @@
 NAME = pipex
 CC = cc
-SRCS = utils.c find_path.c main.c
+SRCS = path_utils.c utils.c find_path.c main.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Werror -Wall -Wextra -g
 LIBFT_PATH = ./LIBFTall/

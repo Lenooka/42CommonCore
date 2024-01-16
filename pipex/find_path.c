@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 03:06:04 by olena             #+#    #+#             */
-/*   Updated: 2024/01/15 14:38:17 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:40:19 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**envp_path_dir(char **envp)
 	return (result);
 }
 
-char    *find_path(char **envp, char *cmd)
+char	*find_path(char **envp, char *cmd)
 {
 	int		idx;
 	char	*path;
@@ -48,4 +48,15 @@ char    *find_path(char **envp, char *cmd)
 	}
 	free_strings(path_array);
 	return (0);
+}
+
+void	command_not_found(char **cmd, int fd, int *pipefd, char *argv)
+{
+	close(pipefd[0]);
+	close(pipefd[1]);
+	close(fd);
+	if (cmd != NULL)
+		free_strings(cmd);
+	ft_printf("%s: command not found\n", argv);
+	exit(EXIT_FAILURE);
 }
