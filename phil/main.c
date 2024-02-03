@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:11:55 by otolmach          #+#    #+#             */
-/*   Updated: 2024/01/26 16:31:48 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/03 12:15:15 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,33 +62,35 @@ size_t	st_atoi(const char *str)
 	return ((size_t)(g * mc));
 }
 
-void	eat(t_data *dat)
+void	eat(t_philo *dat)
 {
+	struct timeval time;
+		
 	pthread_mutex_lock(&dat->right_f);
 	pthread_mutex_lock(&dat->left_f);
-	usleep(dat->t_eat);
-	printf("phil %lu eating\n", dat->phil_temp);
+	usleep(300);
+	printf("phil %d eating\n", dat->nph);
 	pthread_mutex_unlock(&dat->right_f);
 	pthread_mutex_unlock(&dat->left_f);
+	if (gettimeofday(&time, NULL) - dat->te < dat->td)
+		dat->d = -1;
 }
 
-void	*phil(void *data)
+void	*phil(void *philo)
 {
-	t_data *dat = (t_data *)data;
-	if (dat->t == 0)
-	{
+	t_philo *p = (t_philo *)philo;
+	//if (dat->t == 0)
+	/*	{
 		dat->t = -1;
 		pthread_mutex_unlock(&dat->right_f);
 		pthread_mutex_unlock(&dat->left_f);
 		return NULL;		
-	}
-	while (dat->t != 0)
+	}*/
+	while (p->d != -1)
 	{
-		usleep(20);
-		printf("phil %lu sleeping\n", dat->phil_temp);
-		eat(dat);
-		dat->t--;
-		dat->phil_temp++;
+		usleep(20000);
+		printf("phil %d sleeping\n", p->nph);
+		eat(p);
 	}
 	return NULL;
 }
@@ -97,11 +99,13 @@ int	main(int argc, char **argv)
 {
 	t_data data;
 	size_t	temp;
+	t_philo	*philo;
+	int		i = 0;
+	int		a = 0;
 
 	if (argc != 6 && argc != 5)
 		return (0);
-	pthread_mutex_init(&data.right_f, NULL);
-	pthread_mutex_init(&data.left_f, NULL);
+	philo = (t_philo *)malloc(sizeof(t_philo));
 	data.n_phil = st_atoi(argv[1]);
 	data.n_forks = st_atoi(argv[1]);
 	data.t_die = st_atoi(argv[2]);
@@ -110,17 +114,33 @@ int	main(int argc, char **argv)
 	data.n_must_eat = -1;
 	temp = data.n_phil;
 	data.phil_temp = 1;
+	philo->num_ph = data.n_phil;
 	data.t = data.n_phil;
 	if (argc == 6)
 		data.n_must_eat = ft_atoi(argv[5]);
-	ft_printf("%d\n", data.n_must_eat);
-	while (data.t != -1)
+	while (a < ft_atoi(argv[1]))
 	{
-		pthread_create(&data.id, NULL, phil, (void *)&data);
-		pthread_join(data.id, NULL);
-		temp--;
+		philo[a].nph = a + 1;
+		printf("%d\n", philo[a].nph);
+		philo[a].d = data.t;
+		philo[a].td = data.t_die;
+		philo[a].te = data.t_eat;
+		pthread_mutex_init(&philo[a].right_f, NULL);
+		pthread_mutex_init(&philo[a].left_f, NULL);
+		a++;
 	}
-	pthread_mutex_destroy(&data.right_f);
-	pthread_mutex_destroy(&data.left_f);
+	i = 0;
+
+	while (philo->d != -1)
+	{
+	
+		pthread_create(&philo[i].id, NULL, phil, (void *)&philo[i]);
+		pthread_join(philo[i].id, NULL);
+		temp--;
+		i++;
+	}
+	pthread_mutex_destroy(&philo[i].right_f);
+	pthread_mutex_destroy(&philo[i].left_f);
+	free(philo);
 	return (0);
-}
+} 

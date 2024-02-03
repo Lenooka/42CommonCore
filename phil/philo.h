@@ -6,11 +6,25 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "libftall/libft.h"
+#include <sys/time.h>
+
+
+typedef struct s_philo
+{
+	pthread_t	id;
+	int		nph;
+	size_t	num_ph;
+	int		s_lmeal;
+	pthread_mutex_t right_f;
+	pthread_mutex_t	left_f;
+	int		d;
+	size_t	td;
+	size_t	te;
+}		t_philo;
 
 typedef struct s_data
 {
-	pthread_mutex_t right_f;
-	pthread_mutex_t	left_f;
+
 	pthread_t id;
 	size_t	n_phil;
 	size_t	n_forks;
@@ -20,7 +34,8 @@ typedef struct s_data
 	int	n_must_eat;
 	size_t	phil_temp;
 	int		t;
-
-} t_data;
+	t_philo *philo;
+	
+}		t_data;
 
 # endif
