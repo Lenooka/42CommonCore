@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-SRCS = main.c
+SRCS = ft_main.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Werror -Wall -Wextra -g
 LIBFT_PATH = ./libftall/

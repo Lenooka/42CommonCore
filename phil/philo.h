@@ -11,29 +11,23 @@
 
 typedef struct s_philo
 {
-	pthread_t	id;
-	int		nph;
-	size_t	num_ph;
-	int		s_lmeal;
-	pthread_mutex_t right_f;
-	pthread_mutex_t	left_f;
-	int		d;
-	size_t	td;
-	size_t	te;
+	int				index_ph;
+	int				num_ph;
+	int				n_meals;
+	size_t			t_last_meal;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	size_t			start_time;
+	pthread_mutex_t *right_f;
+	pthread_mutex_t	*left_f;
+	pthread_t	thread;
 }		t_philo;
 
 typedef struct s_data
 {
-
-	pthread_t id;
-	size_t	n_phil;
-	size_t	n_forks;
-	size_t	t_die;
-	size_t	t_eat;
-	int		t_sleep;
-	int	n_must_eat;
-	size_t	phil_temp;
-	int		t;
+	pthread_mutex_t death_lock;
+	pthread_mutex_t	meal_lock;
 	t_philo *philo;
 	
 }		t_data;

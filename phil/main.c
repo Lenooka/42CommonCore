@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:11:55 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/03 12:15:15 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:40:37 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ int	main(int argc, char **argv)
 	while (a < ft_atoi(argv[1]))
 	{
 		philo[a].nph = a + 1;
-		printf("%d\n", philo[a].nph);
 		philo[a].d = data.t;
 		philo[a].td = data.t_die;
 		philo[a].te = data.t_eat;
@@ -130,7 +129,6 @@ int	main(int argc, char **argv)
 		a++;
 	}
 	i = 0;
-
 	while (philo->d != -1)
 	{
 	
@@ -143,4 +141,5 @@ int	main(int argc, char **argv)
 	pthread_mutex_destroy(&philo[i].left_f);
 	free(philo);
 	return (0);
-} 
+}
+

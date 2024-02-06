@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:49:46 by otolmach          #+#    #+#             */
-/*   Updated: 2024/01/07 15:38:10 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:31:30 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_map_str(t_data *data)
 	i = 0;
 	if (data->map->map_str != NULL)
 	{
-		while (data->map->map_str[i])
+		while (data->map->map_str[i] != NULL)
 		{
 			free(data->map->map_str[i]);
 			i++;
