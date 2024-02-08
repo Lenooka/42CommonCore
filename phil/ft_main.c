@@ -6,13 +6,11 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/06 19:51:54 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/08 16:57:07 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-
 
 int	ft_atoi(const char *str)
 {
@@ -78,41 +76,71 @@ argv[3] time_to_eat
 argv[4]time_to_sleep
 argv[5]number_of_times_each_philosopher_must_eat(op)*/
 
-void	init_argv(t_philo *philo, char **argv)
+void	init_argv(t_philo philo, char **argv)
 {
-		philo->num_ph = ft_atoi(argv[1]);
-		philo->time_to_die = st_atoi(argv[2]);
-		philo->time_to_eat = st_atoi(argv[3]);
-		philo->time_to_sleep = st_atoi(argv[4]);
-		if (argv[5])
-			philo->n_meals = ft_atoi(argv[5]);
-		else
-			philo->n_meals = -1;
+	philo.num_ph = ft_atoi(argv[1]);
+	philo.time_to_die = st_atoi(argv[2]);
+	philo.time_to_eat = st_atoi(argv[3]);
+	philo.time_to_sleep = st_atoi(argv[4]);
+	if (argv[5])
+		philo.n_meals = ft_atoi(argv[5]);
+	else
+		philo.n_meals = -1;
 }
 
-void	init_philostruct(t_philo *philo, t_data *data, char **argv)
+void	init_philostruct(t_philo *philo, t_data data, char **argv)
 {
 	int	i;
 
 	i = 0;
-	while (i < ft_atoi(argv[1]))
+	while (i < data.gnum)
 	{
 		philo[i].index_ph = i + 1;
 		philo[i].start_time = get_current_time();
 		philo[i].t_last_meal = get_current_time();
-
+		init_argv(philo[i], argv);
+		philo[i].dm = 0;
+		printf("%d\n", philo[i].index_ph);
+		philo[i].left_f = &data.forks[i];
+		if (i == 0)
+			philo[i].right_f = &data.forks[philo[i].num_ph - 1];
+		else
+			philo[i].right_f =  &data.forks[i - 1];
+		i++;
 	}
-	
+}
+
+void	init_mutex(t_data *data, int nph)
+{
+	int	i;
+
+	i = 0;
+	while (i < nph)
+	{
+		pthread_mutex_init(&data->forks[i], NULL);
+		i++;
+	}
+	pthread_mutex_init(&data->death_lock, NULL);
+	pthread_mutex_init(&data->meal_lock, NULL);
 }
 
 int	main(int argc, char **argv)
 {
-	int	i = 0; 
-	t_philo	philo[ft_atoi(argv[1])];
-	t_data	data;
-	pthread_mutex_t	forks[ft_atoi(argv[1])];
+	t_philo			*phil;
+	t_data			data;
+
+/*	if (argument_check(argv, argc) == 1)
+	{
+		return(0);
+	}*/
+	data.gnum = ft_atoi(argv[1]);
+	phil = (t_philo *)malloc(data.gnum * sizeof(t_philo)); /*FREE*/
+	data.philo = phil;
+	data.forks = (pthread_mutex_t *)malloc
+		(data.gnum * sizeof(pthread_mutex_t)); /*FREE*/
+	init_mutex(&data, data.gnum);
+	init_philostruct(phil, data, argv);
 	if (!argc)
 		return (0);
-	
 	return (0);
 }

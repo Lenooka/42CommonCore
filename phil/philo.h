@@ -1,13 +1,25 @@
-#ifndef PHIL_H
-# define PHIL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/08 16:13:09 by otolmach          #+#    #+#             */
+/*   Updated: 2024/02/08 16:53:56 by otolmach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <pthread.h>
-#include <unistd.h>
-#include "libftall/libft.h"
-#include <sys/time.h>
+#ifndef PHILO_H
+# define PHILO_H
 
+# include <stdio.h>
+# include <string.h>
+# include <pthread.h>
+# include <stddef.h>
+# include <unistd.h>
+# include "libftall/libft.h"
+# include <sys/time.h>
 
 typedef struct s_philo
 {
@@ -19,17 +31,20 @@ typedef struct s_philo
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t			start_time;
-	pthread_mutex_t *right_f;
+	pthread_mutex_t	*right_f;
 	pthread_mutex_t	*left_f;
-	pthread_t	thread;
+	int				dm;
+	pthread_t		thread;
 }		t_philo;
 
 typedef struct s_data
 {
-	pthread_mutex_t death_lock;
+	int				gnum;
+	pthread_mutex_t	death_lock;
 	pthread_mutex_t	meal_lock;
-	t_philo *philo;
-	
+	int				death_monitor;
+	t_philo			*philo;
+	pthread_mutex_t	*forks;
 }		t_data;
 
-# endif
+#endif
