@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:13:09 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/08 16:53:56 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/09 17:52:54 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <stddef.h>
 # include <unistd.h>
 # include "libftall/libft.h"
+# include "limits.h"
 # include <sys/time.h>
+# define MAX_INT 2147483647
 
 typedef struct s_philo
 {

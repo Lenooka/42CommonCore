@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/08 16:57:07 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/09 19:02:29 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	init_philostruct(t_philo *philo, t_data data, char **argv)
 		if (i == 0)
 			philo[i].right_f = &data.forks[philo[i].num_ph - 1];
 		else
-			philo[i].right_f =  &data.forks[i - 1];
+			philo[i].right_f = &data.forks[i - 1];
 		i++;
 	}
 }
@@ -124,15 +124,109 @@ void	init_mutex(t_data *data, int nph)
 	pthread_mutex_init(&data->meal_lock, NULL);
 }
 
+int	argument_check(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	j = 1;
+	if (argc != 5 && argc != 6)
+	{
+		printf("Wrong amount of argv!\n");
+		return (1);
+	}
+	while (argv[j])
+	{
+		i = 0;
+		while (argv[j][i])
+		{
+			if (argv[j][i] < '0' || argv[j][i] > '9')
+			{
+				printf("Invalid argument : %s\n", argv[j]);
+				return (1);
+			}
+			i++;
+		}
+		j++;
+	}
+	return (0);
+}
+
+long	ft_strtol(const char *str, char **endptr)
+{
+	long	result;
+
+	result = 0;
+	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		if (result > (LONG_MAX - (*str - '0')) / 10)
+		{
+			if (endptr != NULL)
+			{
+				*endptr = (char *)str;
+			}
+			return (LONG_MAX);
+		}
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	if (endptr != NULL)
+	{
+		*endptr = (char *)str;
+	}
+	return (result);
+}
+
+size_t	fft_strlen(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
+
+int	check_atoi(char **argv)
+{
+	int			i;
+	char		*endptr;
+	long long	value;
+
+	i = 1;
+	while (argv[i])
+	{
+		value = ft_strtol(argv[i], &endptr);
+		if (ft_atoi(argv[1]) > 1000000)
+		{
+			return (printf("To many philosophers for my program!") && 1);
+		}
+		if (*endptr != '\0')
+		{
+			printf("Error converting argument to integer: %s\n", argv[i]);
+			return (1);
+		}
+		if (value > INT_MAX || value < INT_MIN || fft_strlen(argv[i]) > 10)
+		{
+			printf("Integer overflow in argument: %s\n", argv[i]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo			*phil;
 	t_data			data;
 
-/*	if (argument_check(argv, argc) == 1)
-	{
-		return(0);
-	}*/
+	if (argument_check(argc, argv) == 1 || check_atoi(argv) == 1)
+		return (0);
 	data.gnum = ft_atoi(argv[1]);
 	phil = (t_philo *)malloc(data.gnum * sizeof(t_philo)); /*FREE*/
 	data.philo = phil;
