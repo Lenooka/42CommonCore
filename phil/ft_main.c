@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/09 19:02:29 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/19 18:18:50 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ void	init_philostruct(t_philo *philo, t_data data, char **argv)
 	i = 0;
 	while (i < data.gnum)
 	{
+		philo[i].num_ph = data.gnum;
 		philo[i].index_ph = i + 1;
 		philo[i].start_time = get_current_time();
 		philo[i].t_last_meal = get_current_time();
 		init_argv(philo[i], argv);
 		philo[i].dm = 0;
-		printf("%d\n", philo[i].index_ph);
 		philo[i].left_f = &data.forks[i];
 		if (i == 0)
 			philo[i].right_f = &data.forks[philo[i].num_ph - 1];
@@ -220,6 +220,31 @@ int	check_atoi(char **argv)
 	return (0);
 }
 
+void	*routine(void *ph)
+{
+	int	i = 0;
+	t_philo *philo = (t_philo *)ph;
+	
+	while (i < philo->num_ph)
+	{
+		printf("%d eats\n", philo->index_ph);
+		i++;
+	}
+	return (NULL);
+}
+void	create_start(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo[0].num_ph)
+	{
+		pthread_create(&philo[i].thread, NULL, routine, (void *)&philo[i]); //protect this
+		pthread_join(philo[i].thread, NULL); //protect this
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo			*phil;
@@ -234,6 +259,7 @@ int	main(int argc, char **argv)
 		(data.gnum * sizeof(pthread_mutex_t)); /*FREE*/
 	init_mutex(&data, data.gnum);
 	init_philostruct(phil, data, argv);
+	create_start(phil);
 	if (!argc)
 		return (0);
 	return (0);
