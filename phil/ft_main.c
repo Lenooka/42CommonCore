@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/19 18:18:50 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:41:34 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void	init_philostruct(t_philo *philo, t_data data, char **argv)
 			philo[i].right_f = &data.forks[philo[i].num_ph - 1];
 		else
 			philo[i].right_f = &data.forks[i - 1];
+		pthread_mutex_init(&philo[i].death_lock, NULL);
+		pthread_mutex_init(&philo[i].meal_lock, NULL);	
 		i++;
 	}
 }
@@ -120,7 +122,6 @@ void	init_mutex(t_data *data, int nph)
 		pthread_mutex_init(&data->forks[i], NULL);
 		i++;
 	}
-	pthread_mutex_init(&data->death_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
 }
 
@@ -220,26 +221,80 @@ int	check_atoi(char **argv)
 	return (0);
 }
 
+int	dead_check(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->death_lock);
+	if (philo->dm == 1)
+	{
+		pthread_mutex_unlock(&philo->death_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->death_lock);
+	return (0);
+}
+
 void	*routine(void *ph)
 {
-	int	i = 0;
 	t_philo *philo = (t_philo *)ph;
 	
-	while (i < philo->num_ph)
+	while (dead_check(philo) != 1)
 	{
+		pthread_mutex_lock(&philo->meal_lock);
+/*		if (get_current_time() - philo->t_last_meal >= philo->time_to_die)
+		{
+			philo->dm = 1;
+			printf("%d died bye bye\n", philo->index_ph);
+			pthread_mutex_unlock(&philo->meal_lock);
+			break ;
+		}SEPARATE THREAD */
+		pthread_mutex_lock(philo->right_f);
+		pthread_mutex_lock(philo->left_f);
 		printf("%d eats\n", philo->index_ph);
+		usleep(philo->time_to_eat);
+		philo->t_last_meal = get_current_time();
+		pthread_mutex_unlock(philo->right_f);
+		pthread_mutex_unlock(philo->left_f);
+		pthread_mutex_unlock(&philo->meal_lock);
+	}
+	return (NULL);
+}
+
+void	*monitor(void *ph)
+{
+	int	i;
+	t_philo *philo = (t_philo *)ph;
+	
+	i = 0;
+	while (i < philo[0].num_ph)
+	{
+		pthread_mutex_lock(&philo->meal_lock);
+		if (get_current_time() - philo[i].t_last_meal >= philo[i].time_to_die)
+		{
+			philo->dm = 1;
+			printf("%d died bye bye\n", philo[i].index_ph);
+			pthread_mutex_unlock(&philo->meal_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->meal_lock);
 		i++;
 	}
 	return (NULL);
 }
+
 void	create_start(t_philo *philo)
 {
-	int	i;
-
+	int			i;
+	pthread_t	mthread;
 	i = 0;
+	pthread_create(&mthread, NULL, monitor, (void *)&philo[i]); //protect this
 	while (i < philo[0].num_ph)
 	{
 		pthread_create(&philo[i].thread, NULL, routine, (void *)&philo[i]); //protect this
+		i++;
+	}
+	i = 0;
+	while (i < philo[0].num_ph)
+	{
 		pthread_join(philo[i].thread, NULL); //protect this
 		i++;
 	}
@@ -262,5 +317,6 @@ int	main(int argc, char **argv)
 	create_start(phil);
 	if (!argc)
 		return (0);
+	//write free destroy function
 	return (0);
 }

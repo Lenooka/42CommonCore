@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:13:09 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/09 17:52:54 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:20:05 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,13 @@ typedef struct s_philo
 	pthread_mutex_t	*left_f;
 	int				dm;
 	pthread_t		thread;
+	pthread_mutex_t	death_lock;
+	pthread_mutex_t	meal_lock;
 }		t_philo;
 
 typedef struct s_data
 {
 	int				gnum;
-	pthread_mutex_t	death_lock;
 	pthread_mutex_t	meal_lock;
 	int				death_monitor;
 	t_philo			*philo;
