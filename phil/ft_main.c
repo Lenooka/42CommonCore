@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/22 15:41:34 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:20:50 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ int	check_atoi(char **argv)
 			printf("Error converting argument to integer: %s\n", argv[i]);
 			return (1);
 		}
-		if (value > INT_MAX || value < INT_MIN || fft_strlen(argv[i]) > 10)
+		if (value > INT_MAX || value < INT_MIN)
 		{
 			printf("Integer overflow in argument: %s\n", argv[i]);
 			return (1);
@@ -275,7 +275,6 @@ void	*monitor(void *ph)
 			pthread_mutex_unlock(&philo->meal_lock);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->meal_lock);
 		i++;
 	}
 	return (NULL);
@@ -286,7 +285,7 @@ void	create_start(t_philo *philo)
 	int			i;
 	pthread_t	mthread;
 	i = 0;
-	pthread_create(&mthread, NULL, monitor, (void *)&philo[i]); //protect this
+	pthread_create(&mthread, NULL, monitor, (void *)&philo); //protect this
 	while (i < philo[0].num_ph)
 	{
 		pthread_create(&philo[i].thread, NULL, routine, (void *)&philo[i]); //protect this
