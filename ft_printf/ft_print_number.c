@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_print_number.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otolmach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 13:56:29 by otolmach          #+#    #+#             */
-/*   Updated: 2023/12/03 14:28:29 by otolmach         ###   ########.fr       */
+/*   Created: 2023/10/01 14:50:38 by otolmach          #+#    #+#             */
+/*   Updated: 2023/10/01 14:50:39 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "ft_printf.h"
+#include "libft/libft.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_print_number(int n)
 {
-	size_t	i;
+	int		len;
+	char	*num;
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+	len = 0;
+	num = ft_itoa(n);
+	len = ft_print_s(num);
+	free(num);
+	return (len);
 }
