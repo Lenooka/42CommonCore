@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/28 13:20:50 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:39:24 by olena            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,29 +235,35 @@ int	dead_check(t_philo *philo)
 
 void	*routine(void *ph)
 {
-	t_philo *philo = (t_philo *)ph;
+	t_philo *philo;
 	
-	while (dead_check(philo) != 1)
+	philo = (t_philo *)ph;
+	//if (philo->num_ph == 1)
+		//return (one_phil_routine(philo)); //non implemented
+	if (philo->index_ph % 2 == 0)
+		usleep(100);
+	while (dead_check(philo) != 1 && philo->n_meals != 0)
 	{
-		pthread_mutex_lock(&philo->meal_lock);
-/*		if (get_current_time() - philo->t_last_meal >= philo->time_to_die)
-		{
-			philo->dm = 1;
-			printf("%d died bye bye\n", philo->index_ph);
-			pthread_mutex_unlock(&philo->meal_lock);
-			break ;
-		}SEPARATE THREAD */
-		pthread_mutex_lock(philo->right_f);
-		pthread_mutex_lock(philo->left_f);
-		printf("%d eats\n", philo->index_ph);
-		usleep(philo->time_to_eat);
+		forks_take_lock(philo);
+		print_messege(philo, "is eating");
+		if (philo->n_meals != -1)
+			philo->n_meals--;
 		philo->t_last_meal = get_current_time();
-		pthread_mutex_unlock(philo->right_f);
-		pthread_mutex_unlock(philo->left_f);
-		pthread_mutex_unlock(&philo->meal_lock);
+		special_usleep(philo->time_to_eat);
+		
+		
 	}
 	return (NULL);
 }
+
+// 		pthread_mutex_lock(&philo->meal_lock);
+// /*		if (get_current_time() - philo->t_last_meal >= philo->time_to_die)
+// 		{
+// 			philo->dm = 1;
+// 			printf("%d died bye bye\n", philo->index_ph);
+// 			pthread_mutex_unlock(&philo->meal_lock);
+// 			break ;
+// 		}SEPARATE THREAD */
 
 void	*monitor(void *ph)
 {
