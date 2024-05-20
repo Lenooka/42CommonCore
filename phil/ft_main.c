@@ -6,7 +6,7 @@
 /*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/05/20 14:53:39 by olena            ###   ########.fr       */
+/*   Updated: 2024/05/20 15:34:58 by olena            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ size_t	st_atoi(const char *str)
 	return ((size_t)(g * mc));
 }
 
-size_t	get_current_time(void)
+size_t	get_current_time(spec_time)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		printf("Get time error!\n");
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	return ((time.tv_sec * (u_int64_t)1000) + (time.tv_usec / 1000) - spec_time);
 }
 /*argv[1]number_of_philosophers
 argv[2] time_to_die
@@ -97,8 +97,7 @@ void	init_philostruct(t_philo *philo, t_data data, char **argv)
 	{
 		philo[i].num_ph = data.gnum;
 		philo[i].index_ph = i + 1;
-		philo[i].start_time = get_current_time();
-		philo[i].t_last_meal = get_current_time();
+		philo[i].t_last_meal = get_current_time(0);
 		init_argv(philo[i], argv);
 		philo[i].dm = 0;
 		philo[i].left_f = &data.forks[i];
@@ -234,9 +233,42 @@ int	dead_check(t_philo *philo)
 	return (0);
 }
 
-void	print_messege()
+void	print_messege(t_philo *phil, char *mess)
 {
-	
+	u_int64_t	time;
+
+	time = get_current_time(phil->start_time);
+	pthread_mutex_lock(&phil->print_lock);
+	if (phil->dm == 0)
+		printf("%llu %d %s\n", time, phil->index_ph, mess);
+	pthread_mutex_unlock(&phil->print_lock);
+}
+
+void	forks_take_lock(t_philo *philo)
+{
+	if (philo->index_ph % 2 == 0)
+	{
+		pthread_mutex_lock(philo->right_f);
+		print_messege(philo, "has taken a fork");
+		pthread_mutex_lock(philo->left_f);
+		print_messege(philo, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->left_f);
+		print_messege(philo, "has taken a fork");
+		pthread_mutex_lock(philo->right_f);
+		print_messege(philo, "has taken a fork");
+	}
+	print_messege(philo, "is eating");
+}
+
+int	last_meal_time(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->meal_lock);
+	philo->t_last_meal = get_current_time(0);
+	pthread_mutex_unlock(&philo->meal_lock);
+	return (0);
 }
 
 void	*routine(void *ph)
@@ -251,8 +283,8 @@ void	*routine(void *ph)
 	while (dead_check(philo) != 1 && philo->n_meals != 0)
 	{
 		forks_take_lock(philo); //non implemented function were philo takes forks
-		print_messege(philo, "is eating"); //non implemented 
-		if (philo->n_meals != -1)
+		last_meal_time(philo);
+		if ()
 			philo->n_meals--;
 		philo->t_last_meal = get_current_time();
 		special_usleep(philo->time_to_eat); //non implemented special usleep noz 
@@ -297,6 +329,7 @@ void	create_start(t_philo *philo)
 	int			i;
 	pthread_t	mthread;
 	i = 0;
+	philo[i].start_time = get_current_time(0);
 	pthread_create(&mthread, NULL, monitor, (void *)&philo); //protect this
 	while (i < philo[0].num_ph)
 	{
