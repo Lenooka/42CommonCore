@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:11:55 by otolmach          #+#    #+#             */
-/*   Updated: 2024/02/05 16:40:37 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:41:30 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int argc, char **argv)
 	if (argc != 6 && argc != 5)
 		return (0);
 	philo = (t_philo *)malloc(sizeof(t_philo));
-	data.n_phil = st_atoi(argv[1]);
+	data.num = st_atoi(argv[1]);
 	data.n_forks = st_atoi(argv[1]);
 	data.t_die = st_atoi(argv[2]);
 	data.t_eat = ft_atoi(argv[3]);

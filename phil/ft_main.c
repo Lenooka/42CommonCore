@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/05/15 13:57:57 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:44:33 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void	init_philostruct(t_philo *philo, t_data data, char **argv)
 		else
 			philo[i].right_f = &data.forks[i - 1];
 		pthread_mutex_init(&philo[i].death_lock, NULL);
-		pthread_mutex_init(&philo[i].meal_lock, NULL);	
+		pthread_mutex_init(&philo[i].meal_lock, NULL);
+		pthread_mutex_init(&philo[i].print_lock, NULL);
 		i++;
 	}
 }
@@ -232,6 +233,8 @@ int	dead_check(t_philo *philo)
 	pthread_mutex_unlock(&philo->death_lock);
 	return (0);
 }
+
+void	print_messege()
 
 void	*routine(void *ph)
 {
