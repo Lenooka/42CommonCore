@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/05/13 18:39:24 by olena            ###   ########.fr       */
+/*   Updated: 2024/05/15 13:57:57 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,12 +244,12 @@ void	*routine(void *ph)
 		usleep(100);
 	while (dead_check(philo) != 1 && philo->n_meals != 0)
 	{
-		forks_take_lock(philo);
-		print_messege(philo, "is eating");
+		forks_take_lock(philo); //non implemented function were philo takes forks
+		print_messege(philo, "is eating"); //non implemented 
 		if (philo->n_meals != -1)
 			philo->n_meals--;
 		philo->t_last_meal = get_current_time();
-		special_usleep(philo->time_to_eat);
+		special_usleep(philo->time_to_eat); //non implemented special usleep noz 
 		
 		
 	}
