@@ -6,7 +6,7 @@
 /*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/05/20 15:34:58 by olena            ###   ########.fr       */
+/*   Updated: 2024/05/20 16:56:47 by olena            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void	print_messege(t_philo *phil, char *mess)
 	pthread_mutex_unlock(&phil->print_lock);
 }
 
-void	forks_take_lock(t_philo *philo)
+void	*forks_take_lock(t_philo *philo)
 {
 	if (philo->index_ph % 2 == 0)
 	{
@@ -260,7 +260,6 @@ void	forks_take_lock(t_philo *philo)
 		pthread_mutex_lock(philo->right_f);
 		print_messege(philo, "has taken a fork");
 	}
-	print_messege(philo, "is eating");
 }
 
 int	last_meal_time(t_philo *philo)
@@ -268,28 +267,50 @@ int	last_meal_time(t_philo *philo)
 	pthread_mutex_lock(&philo->meal_lock);
 	philo->t_last_meal = get_current_time(0);
 	pthread_mutex_unlock(&philo->meal_lock);
+	//maybe put dead check here
+	//but maybe works without it
 	return (0);
 }
 
+int 	eat_count(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->meal_count_lock);
+	philo->n_meals--;
+	pthread_mutex_unlock(&philo->meal_count_lock);
+	if (dead_check(philo) == 1)
+		return (1);
+	return (0);
+}
+
+/*
+Stager multyplyin time_to_eat by 2
+to compensate for usleep in the beginning of the function
+*/
 void	*routine(void *ph)
 {
 	t_philo *philo;
 	
 	philo = (t_philo *)ph;
-	//if (philo->num_ph == 1)
-		//return (one_phil_routine(philo)); //non implemented
+	if (philo->num_ph == 1)
+		return (one_phil_routine(philo)); //non implemented
 	if (philo->index_ph % 2 == 0)
 		usleep(100);
 	while (dead_check(philo) != 1 && philo->n_meals != 0)
 	{
 		forks_take_lock(philo); //non implemented function were philo takes forks
+		print_messege(philo, "is eating");
 		last_meal_time(philo);
-		if ()
-			philo->n_meals--;
-		philo->t_last_meal = get_current_time();
-		special_usleep(philo->time_to_eat); //non implemented special usleep noz 
-		
-		
+		if (dead_check(philo) == 1)
+			retrun (forks_take_lock(philo), NULL);
+		take_action_time(philo->time_to_eat); //non implemented function
+		forks_put_lock(philo); //non implemented function were philo puts forks
+		if (eat_count(philo) == 1)
+			return (NULL);
+		print_messege(philo, "is sleeping");
+		take_action_time(philo->time_to_sleep); //non implemented function 
+		print_messege(philo, "is thinking");
+		if ((philo->num_ph % 2) && dead_check(philo) == 1)
+			take_action_time(philo->time_to_eat * 2 - philo->time_to_sleep);
 	}
 	return (NULL);
 }
