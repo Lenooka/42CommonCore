@@ -6,7 +6,7 @@
 /*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 13:23:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/07 13:45:50 by olena            ###   ########.fr       */
+/*   Updated: 2024/06/07 20:10:37 by olena            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,8 +267,6 @@ int	last_meal_time(t_philo *philo)
 	pthread_mutex_lock(&philo->meal_lock);
 	philo->t_last_meal = get_current_time(0);
 	pthread_mutex_unlock(&philo->meal_lock);
-	//maybe put dead check here
-	//but maybe works without it
 	return (0);
 }
 
@@ -280,6 +278,26 @@ int 	eat_count(t_philo *philo)
 	if (dead_check(philo) == 1)
 		return (1);
 	return (0);
+}
+/*
+	do we need to print state?
+*/
+void	*forks_put_lock(t_philo *philo)
+{
+	if (philo->index_ph % 2 == 0)
+	{
+		pthread_mutex_unlock(philo->right_f);
+		print_messege(philo, "has put down a fork");
+		pthread_mutex_unlock(philo->left_f);
+		print_messege(philo, "has put down a fork");
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->left_f);
+		print_messege(philo, "has put down a fork");
+		pthread_mutex_unlock(philo->right_f);
+		print_messege(philo, "has put down a fork");
+	}
 }
 
 /*
@@ -297,13 +315,13 @@ void	*routine(void *ph)
 		usleep(100);
 	while (dead_check(philo) != 1 && philo->n_meals != 0)
 	{
-		forks_take_lock(philo); //non implemented function were philo takes forks
+		forks_take_lock(philo);
 		print_messege(philo, "is eating");
 		last_meal_time(philo);
 		if (dead_check(philo) == 1)
 			retrun (forks_take_lock(philo), NULL);
 		take_action_time(philo->time_to_eat); //non implemented function
-		forks_put_lock(philo); //non implemented function were philo puts forks
+		forks_put_lock(philo); 
 		if (eat_count(philo) == 1)
 			return (NULL);
 		print_messege(philo, "is sleeping");
@@ -333,7 +351,7 @@ void	*monitor(void *ph)
 	while (i < philo[0].num_ph)
 	{
 		pthread_mutex_lock(&philo->meal_lock);
-		if (get_current_time() - philo[i].t_last_meal >= philo[i].time_to_die)
+		if (get_current_time(0) - philo[i].t_last_meal >= philo[i].time_to_die)
 		{
 			philo->dm = 1;
 			printf("%d died bye bye\n", philo[i].index_ph);

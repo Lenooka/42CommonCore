@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:13:09 by otolmach          #+#    #+#             */
-/*   Updated: 2024/05/20 15:54:44 by olena            ###   ########.fr       */
+/*   Updated: 2024/05/23 15:17:52 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 # include <pthread.h>
 # include <stddef.h>
 # include <unistd.h>
-# include "libftall/libft.h"
 # include "limits.h"
 # include <sys/time.h>
+# include <sys/types.h>
+# include <stdlib.h>
 # define MAX_INT 2147483647
 
 typedef struct s_philo
