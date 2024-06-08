@@ -6,7 +6,7 @@
 /*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:13:09 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/08 22:57:12 by olena            ###   ########.fr       */
+/*   Updated: 2024/06/08 15:48:58 by olena            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,45 +26,36 @@
 
 typedef struct s_philo
 {
-    pthread_mutex_t *left_f;
-    int           numphilo;
-    pthread_mutex_t *right_f;
-    pthread_mutex_t eat_count;
-    pthread_mutex_t last_meal;
-    int             index;
-    int             eaten_meals;
-    u_int64_t       last_meal_time;
-    struct s_data *data;
+	int				index_ph;
+	int				num_ph;
+	int				n_meals;
+	size_t			t_last_meal;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	u_int64_t		start_time;
+	pthread_mutex_t	*right_f;
+	pthread_mutex_t	*left_f;
+	int				dm;
+	pthread_t		thread;
+	pthread_mutex_t	death_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	print_lock;
+	struct s_data	*data;
 }		t_philo;
 
 typedef struct s_data
 {
-    u_int64_t     start_time;
-    int     num_of_philo;
-    int     time_to_die;
-    int     time_to_eat;
-    int     time_to_sleep;
-    int     num_of_meals;
-    t_philo  *philo;
-    pthread_t *thread;
-    pthread_t thread_death;
-    pthread_t thread_meals;
-    pthread_mutex_t *forks;
-    pthread_mutex_t print;
-    pthread_mutex_t death_chek;
-    int    death;
+	int				gnum;
+	pthread_mutex_t	meal_lock;
+	int				death_monitor;
+	pthread_mutex_t	dlock;
+	t_philo			*philo;
+	u_int64_t		s_time;
+	pthread_mutex_t	*forks;
+	pthread_t		monitor;
+	pthread_mutex_t	meal_count_lock;
+	pthread_mutex_t	print_lock;
 }		t_data;
 
-
-int ft_atoi(const char *str);
-size_t st_atoi(const char *str);
-long ft_strtol(const char *str, char **endptr);
-size_t fft_strlen(char *s);
-int check_atoi(char **argv);
-int argument_check(int argc, char **argv);
-int	error_arguments(char *s, char *mess);
-int	dead_check(t_data *data);
-u_int64_t	get_current_time(u_int64_t relative);
-void	clean_free(t_data *data);
 #endif
-

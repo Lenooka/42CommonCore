@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otolmach <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/05 17:28:03 by otolmach          #+#    #+#             */
-/*   Updated: 2023/09/05 17:28:05 by otolmach         ###   ########.fr       */
+/*   Created: 2024/06/08 16:00:31 by olena             #+#    #+#             */
+/*   Updated: 2024/06/08 22:57:24 by olena            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philo.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+u_int64_t	get_current_time(u_int64_t relative)
 {
-	size_t	i;
+		struct timeval	now;
 
-	i = 0;
-	if (n == 0)
+	if (gettimeofday(&now, NULL) == -1)
 	{
-		return (0);
+		printf("Error: gettimeofday\n");
+		exit(1);
 	}
-	while (s1[i] != '\0' && s1[i] == s2[i] && i < n - 1)
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return ((now.tv_sec * (u_int64_t)1000) + (now.tv_usec / 1000) - relative);
 }

@@ -1,5 +1,5 @@
 NAME = philo
-SRCS = ft_main.c
+SRCS = ft_main.c arg_check.c time_utils.c
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Werror -Wall -Wextra -g
 
