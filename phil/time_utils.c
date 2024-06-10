@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olena <olena@student.42.fr>                +#+  +:+       +#+        */
+/*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:00:31 by olena             #+#    #+#             */
-/*   Updated: 2024/06/08 22:57:24 by olena            ###   ########.fr       */
+/*   Updated: 2024/06/10 18:04:38 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 u_int64_t	get_current_time(u_int64_t relative)
 {
-		struct timeval	now;
+	struct timeval	now;
 
 	if (gettimeofday(&now, NULL) == -1)
 	{
