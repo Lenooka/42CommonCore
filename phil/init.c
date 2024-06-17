@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:54:31 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:06:29 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:08:22 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	init_struct(t_data *data)
 	return (0);
 }
 
-void	serve_forks(t_data *data)
+void	init_forks(t_data *data)
 {
 	int	i;
 
@@ -71,12 +71,12 @@ void	serve_forks(t_data *data)
 	}
 }
 
-void	serve_table(t_data *data, t_philo *philo)
+void	init_philo(t_data *data, t_philo *philo)
 {
 	int	i;
 
 	i = 0;
-	serve_forks(data);
+	init_forks(data);
 	data->start_time = get_current_time(0);
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->death_chek, NULL);
@@ -95,18 +95,13 @@ void	serve_table(t_data *data, t_philo *philo)
 	}
 }
 
+
 int	start_threads(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	data->start_time = get_current_time(0);
-	while (i < data->num_of_philo)
-	{
-		data->philo[i].last_meal_time = data->start_time;
-		i++;
-	}
-	i = 0;
+	start_time_init(data);
 	while (i < data->num_of_philo)
 	{
 		if (pthread_create(&data->thread[i], NULL,
@@ -118,7 +113,9 @@ int	start_threads(t_data *data)
 		|| (data->num_of_meals > 0 && data->num_of_philo > 1
 			&& pthread_create(&data->thread_meals, NULL,
 				&meals_monitor, (void *)data)))
-		return (1);
-	join_threads(data);
+		{
+			return (1);
+		}
+	join_threads(&data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:55:19 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:07:59 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:58:17 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,20 @@ void	*lonely_philo(t_philo *philo)
 	return (NULL);
 }
 
+int	philo_eat(t_philo *ph)
+{
+	take_forks(ph);
+	print_messege(ph, "is eating");
+	if (ft_set_time_last_meal(ph) && dead_check(ph->data) == 1)
+	{		
+		take_forks(ph);
+		return (1);
+	}
+	pass_time(ph->data->time_to_eat);
+	put_forks(ph);
+	return (0);
+}
+
 void	*philo_life(void *philo)
 {
 	t_philo	*ph;
@@ -43,12 +57,8 @@ void	*philo_life(void *philo)
 	while ((dead_check(ph->data) != 1 && ph->data->num_of_meals < 0)
 		|| eat_count(ph) < ph->data->num_of_meals)
 	{
-		take_forks(ph);
-		print_messege(ph, "is eating");
-		if (ft_set_time_last_meal(philo) && dead_check(ph->data) == 1)
-			return (take_forks(ph), NULL);
-		pass_time(ph->data->time_to_eat);
-		put_forks(ph);
+		if (philo_eat(ph))
+			break ;
 		if (incr_eaten_meals(ph) && dead_check(ph->data))
 			break ;
 		print_messege(philo, "is sleeping");

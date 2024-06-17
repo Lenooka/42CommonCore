@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:56:40 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:09:15 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:05:28 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ u_int64_t	last_meal_time(t_philo *philo)
 	time = philo->last_meal_time;
 	pthread_mutex_unlock(&philo->last_meal);
 	return (time);
+}
+
+void	forcee_exit(t_data *data)
+{
+	pthread_mutex_lock(&data->death_chek);
+	data->death = 1;
+	pthread_mutex_unlock(&data->death_chek);
+	clean_free(data);
+	exit(0);
 }
 
 void	force_exit(t_data *data)
@@ -44,7 +53,7 @@ void	*monitor(void *dat)
 				> (u_int64_t)data->time_to_die)
 			{
 				return (print_messege(&data->philo[i], "died"),
-					force_exit(data), NULL);
+					forcee_exit(data), NULL);
 			}
 			i++;
 		}

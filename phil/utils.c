@@ -6,11 +6,24 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:55:01 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:10:30 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:09:38 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	start_time_init(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->start_time = get_current_time(0);
+	while (i < data->num_of_philo)
+	{
+		data->philo[i].last_meal_time = data->start_time;
+		i++;
+	}
+}
 
 int	argument_check(int argc, char **argv)
 {

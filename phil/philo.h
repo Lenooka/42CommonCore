@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:13:09 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:04:10 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:09:22 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ int			malloc_error(char *mes);
 void		*meals_monitor(void *dat);
 int			set_input_numbers(t_data *data, char **s);
 int			init_struct(t_data *data);
-void		serve_forks(t_data *data);
-void		serve_table(t_data *data, t_philo *philo);
+void		init_forks(t_data *data);
+void		init_philo(t_data *data, t_philo *philo);
 void		join_threads(t_data *data);
 int			start_threads(t_data *data);
 u_int64_t	last_meal_time(t_philo *philo);
@@ -92,5 +92,7 @@ int			ft_set_time_last_meal(t_philo *philo);
 int			eat_count(t_philo *philo);
 int			incr_eaten_meals(t_philo *philo);
 void		*take_forks(t_philo *philo);
+int			check_meals(int argc, char **argv);
+void		start_time_init(t_data *data);
 
 #endif

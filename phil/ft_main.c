@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 15:54:05 by olena             #+#    #+#             */
-/*   Updated: 2024/06/10 17:56:28 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:06:20 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	main(int argc, char **argv)
 		return (0);
 	if (init_struct(&data) == 1)
 		return (0);
-	serve_table(&data, data.philo);
+	init_philo(&data, data.philo);
 	if (start_threads(&data) == 1)
 	{
 		printf("Creating threads failed!\n");
 		clean_free(&data);
-		return (1);
+		return (0);
 	}
 	clean_free(&data);
 	return (0);
