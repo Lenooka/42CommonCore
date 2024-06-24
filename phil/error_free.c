@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:52:44 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/17 18:50:17 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/22 18:39:41 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ void	clean_free(t_data *data)
 	int	i;
 
 	i = 0;
-	pthread_join(data->thread_death, NULL);
-	if (data->num_of_meals > 0 && data->num_of_philo > 1)
-		pthread_join(data->thread_meals, NULL);
-	i = 0;
 	while (i < data->num_of_philo)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
@@ -43,7 +39,28 @@ void	clean_free(t_data *data)
 	}
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->death_chek);
+	pthread_mutex_destroy(&data->destroy_mutex);
 	free(data->philo);
 	free(data->thread);
 	free(data->forks);
+}
+
+void	freeing(t_data *data)
+{
+	free(data->philo);
+	free(data->thread);
+	free(data->forks);
+}
+
+void	free_back(t_philo *philo, int i, int j)
+{
+	int	k;
+
+	k = i;
+	if (j >= 1)
+		while (--k >= 0)
+			pthread_mutex_destroy(&philo[i].eat_count);
+	if (j >= 2)
+		while (--i >= 0)
+			pthread_mutex_destroy(&philo[i].last_meal);
 }

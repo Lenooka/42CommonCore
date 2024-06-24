@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:05:52 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:10:06 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/22 18:45:24 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	eat(t_philo *philo)
 	print_messege(philo, "is eating");
 	if (ft_set_time_last_meal(philo) && dead_check(philo->data) == 1)
 		return (1);
-	pass_time(philo->data->time_to_eat);
+	pass_time(philo->data->time_to_eat, philo->data);
 	return (0);
 }
 
@@ -56,5 +56,5 @@ void	think(t_philo *philo)
 void	ft_sleep(t_philo *philo)
 {
 	print_messege(philo, "is sleeping");
-	pass_time(philo->data->time_to_sleep);
+	pass_time(philo->data->time_to_sleep, philo->data);
 }

@@ -6,18 +6,18 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:08:38 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:10:22 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:29:34 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	pass_time(u_int64_t time)
+void	pass_time(u_int64_t time, t_data *data)
 {
 	u_int64_t	start_time;
 
 	start_time = get_current_time(0);
-	while (get_current_time(start_time) < time)
+	while (get_current_time(start_time) < time && dead_check(data) != 1)
 		usleep(500);
 }
 

@@ -6,11 +6,18 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:55:01 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/17 18:09:38 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/22 18:40:40 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	destroy_lock(t_data *data)
+{
+	pthread_mutex_lock(&data->destroy_mutex);
+	data->done = 1;
+	pthread_mutex_unlock(&data->destroy_mutex);
+}
 
 void	start_time_init(t_data *data)
 {
@@ -73,6 +80,9 @@ void	join_threads(t_data *data)
 	int	i;
 
 	i = 0;
+	pthread_join(data->thread_death, NULL);
+	if (data->num_of_meals > 0 && data->num_of_philo > 1)
+		pthread_join(data->thread_meals, NULL);
 	while (i < data->num_of_philo)
 	{
 		pthread_join(data->thread[i], NULL);

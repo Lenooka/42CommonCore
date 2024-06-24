@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:13:09 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/17 18:09:22 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/22 18:59:33 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,18 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death_chek;
+	pthread_mutex_t	destroy_mutex;
 	int				death;
+	int				done;
 }		t_data;
 
 int			ft_atoi(const char *str);
 size_t		st_atoi(const char *str);
 long		ft_strtol(const char *str, char **endptr);
+void		destroy_lock(t_data *data);
 size_t		fft_strlen(char *s);
 int			check_atoi(char **argv);
+int			destroy_check(t_data *data);
 int			argument_check(int argc, char **argv);
 int			error_arguments(char *s, char *mess);
 int			dead_check(t_data *data);
@@ -70,7 +74,7 @@ int			malloc_error(char *mes);
 void		*meals_monitor(void *dat);
 int			set_input_numbers(t_data *data, char **s);
 int			init_struct(t_data *data);
-void		init_forks(t_data *data);
+int			init_forks(t_data *data);
 void		init_philo(t_data *data, t_philo *philo);
 void		join_threads(t_data *data);
 int			start_threads(t_data *data);
@@ -87,12 +91,20 @@ void		print_messege(t_philo *phil, char *mess);
 void		*lonely_philo(t_philo *philo);
 void		*philo_life(void *philo);
 u_int64_t	get_current_time(u_int64_t relative);
-void		pass_time(u_int64_t time);
+void		pass_time(u_int64_t time, t_data *data);
 int			ft_set_time_last_meal(t_philo *philo);
 int			eat_count(t_philo *philo);
 int			incr_eaten_meals(t_philo *philo);
 void		*take_forks(t_philo *philo);
 int			check_meals(int argc, char **argv);
 void		start_time_init(t_data *data);
+void		we_done(t_data *data);
+void		free_forks(t_data *data, int i);
+int			init_mutex(t_data *data);
+int			mutex_init_in(t_philo *philo, int i);
+void		freeing(t_data *data);
+void		free_back(t_philo *philo, int i, int j);
+void		destroy_lock(t_data *data);
+int			are_we_done(t_data *data);
 
 #endif

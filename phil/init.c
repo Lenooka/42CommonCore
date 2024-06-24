@@ -6,7 +6,7 @@
 /*   By: otolmach <otolmach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:54:31 by otolmach          #+#    #+#             */
-/*   Updated: 2024/06/17 19:08:22 by otolmach         ###   ########.fr       */
+/*   Updated: 2024/06/22 19:25:35 by otolmach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,21 @@ int	init_struct(t_data *data)
 	return (0);
 }
 
-void	init_forks(t_data *data)
+int	init_forks(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->num_of_philo)
 	{
-		pthread_mutex_init(&data->forks[i], NULL);
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		{
+			free_forks(data, i);
+			return (1);
+		}
 		i++;
 	}
+	return (0);
 }
 
 void	init_philo(t_data *data, t_philo *philo)
@@ -76,25 +81,28 @@ void	init_philo(t_data *data, t_philo *philo)
 	int	i;
 
 	i = 0;
-	init_forks(data);
+	if (init_mutex(data) == 1)
+	{
+		freeing(data);
+		return ;
+	}
 	data->start_time = get_current_time(0);
-	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->death_chek, NULL);
 	while (i < data->num_of_philo)
 	{
 		philo[i].index = i + 1;
 		philo[i].data = data;
 		philo[i].eaten_meals = 0;
-		philo[i].numphilo = data->num_of_philo;
 		philo[i].left_f = &data->forks[i];
 		philo[i].right_f
 			= &data->forks[(i + 1) % data->num_of_philo];
-		pthread_mutex_init(&philo[i].eat_count, NULL);
-		pthread_mutex_init(&philo[i].last_meal, NULL);
+		if (mutex_init_in(philo, i) == 1)
+		{
+			freeing(data);
+			return ;
+		}
 		i++;
 	}
 }
-
 
 int	start_threads(t_data *data)
 {
@@ -102,20 +110,24 @@ int	start_threads(t_data *data)
 
 	i = 0;
 	start_time_init(data);
+	data->done = 0;
 	while (i < data->num_of_philo)
 	{
 		if (pthread_create(&data->thread[i], NULL,
 				&philo_life, (void *)&data->philo[i]))
+		{
 			return (1);
+		}
 		i++;
 	}
+	we_done(data);
 	if (pthread_create(&data->thread_death, NULL, &monitor, (void *)data)
 		|| (data->num_of_meals > 0 && data->num_of_philo > 1
 			&& pthread_create(&data->thread_meals, NULL,
 				&meals_monitor, (void *)data)))
-		{
-			return (1);
-		}
-	join_threads(&data);
+	{
+		return (1);
+	}
+	join_threads(data);
 	return (0);
 }
